@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>R4J KEY GENERATOR</title>
+  <style>
+    /* Design Tokens & Theme Variables */
+    :root {
+      --bg-void: #07090f;
+      --bg-surface: rgba(16, 21, 34, 0.78);
+      --bg-elevated: rgba(10, 14, 24, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.11);
+      --border-glow: rgba(0, 245, 212, 0.35);
+      --text-primary: #f4f6fb;
+      --text-muted: #98a2b3;
+      --accent-cyan: #00f5d4;
+      --accent-magenta: #ff2a85;
+      --accent-success: #22c55e;
+      --accent-warning: #f59e0b;
+      --accent-danger: #ef4444;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --shadow-card: 0 22px 60px rgba(0, 0, 0, 0.58);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      color: var(--text-primary);
+      background-color: var(--bg-void);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(0, 245, 212, 0.14), transparent 42%),
+        radial-gradient(circle at 88% 16%, rgba(255, 42, 133, 0.14), transparent 42%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 18px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Top Bar with Credit Badge */
+    .top-credit-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .creator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #e2e8f0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .creator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-magenta);
+      box-shadow: 0 0 10px var(--accent-magenta);
+      flex-shrink: 0;
+    }
+
+    /* Glass Card */
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-card);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta), var(--accent-cyan));
+    }
+
+    /* Header & Circular RGB R4J Emblem */
+    .hero-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rgb-emblem-outer {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      padding: 4px;
+      background: conic-gradient(from 0deg, var(--accent-cyan), var(--accent-magenta), #7c3aed, var(--accent-cyan));
+      animation: rotateRing 6s linear infinite;
+      box-shadow: 0 0 28px rgba(0, 245, 212, 0.28), 0 0 28px rgba(255, 42, 133, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes rotateRing {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .rgb-emblem-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #182236, #090c14 78%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .emblem-title {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      color: #ffffff;
+    }
+
+    .emblem-sub {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+    }
+
+    .brand-heading {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      background: linear-gradient(90deg, #ffffff, var(--accent-cyan), var(--accent-magenta));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Utility & Navigation Bar */
+    .utility-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .session-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+      min-width: 0;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .session-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 6-Step Progress Pills */
+    .stepper-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .stepper-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .step-pill {
+      padding: 8px 6px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      text-align: center;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .step-pill:hover {
+      border-color: rgba(0, 245, 212, 0.45);
+    }
+
+    .step-pill.is-active {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 245, 212, 0.13);
+      box-shadow: 0 0 16px rgba(0, 245, 212, 0.2);
+    }
+
+    .step-pill.is-done {
+      border-color: rgba(34, 197, 94, 0.5);
+      background: rgba(34, 197, 94, 0.11);
+    }
+
+    .step-pill.is-locked {
+      opacity: 0.62;
+    }
+
+    .step-pill-title {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .step-pill-state {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .step-pill.is-active .step-pill-state {
+      color: var(--accent-cyan);
+    }
+
+    .step-pill.is-done .step-pill-state {
+      color: #4ade80;
+    }
+
+    /* Stage Containers (Unconditional Show/Hide) */
+    .stage-panel {
+      display: none;
+    }
+
+    .stage-panel.is-visible {
+      display: block;
+      animation: fadeSlideUp 0.24s ease-out;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stage-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stage-kicker {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-cyan);
+    }
+
+    .stage-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .badge-pill {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.14);
+      color: #fbbf24;
+    }
+
+    .badge-pill.is-complete {
+      border-color: rgba(34, 197, 94, 0.45);
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+    }
+
+    /* Auth Tabs & Forms */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 6px;
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 18px;
+    }
+
+    .auth-tab-btn {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.16s ease;
+    }
+
+    .auth-tab-btn.is-active {
+      background: rgba(255, 42, 133, 0.18);
+      border-color: rgba(255, 42, 133, 0.5);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(255, 42, 133, 0.2);
+    }
+
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #cbd5e1;
+      letter-spacing: 0.03em;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input-box:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .input-error {
+      border-color: var(--accent-danger) !important;
+    }
+
+    .error-text {
+      font-size: 12px;
+      color: #f87171;
+    }
+
+    /* Task Cards inside Steps 2A, 2B, 2C, 3 */
+    .task-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s ease;
+    }
+
+    .task-card.is-verified {
+      border-color: rgba(34, 197, 94, 0.45);
+    }
+
+    .task-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .task-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .task-name {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .task-url {
+      font-size: 12px;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+
+    .task-footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .quiz-question {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .quiz-highlight {
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      font-size: 16px;
+    }
+
+    .quiz-inline-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .quiz-inline-row .input-box {
+      flex: 1 1 170px;
+      font-family: var(--font-mono);
+    }
+
+    .feedback-note {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .feedback-note.ok {
+      color: #4ade80;
+    }
+
+    .feedback-note.bad {
+      color: #f87171;
+    }
+
+    /* Warning Box */
+    .warning-banner {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 42, 133, 0.55);
+      background: rgba(255, 42, 133, 0.14);
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffe4ef;
+    }
+
+    /* Link Display Box */
+    .link-preview-box {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: #06080d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-cyan);
+    }
+
+    .link-preview-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .link-btn-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 540px) {
+      .link-btn-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Key Generator Box */
+    .key-display-box {
+      min-height: 76px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: #06080d;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 16px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .key-display-box.is-ready {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 24px rgba(0, 245, 212, 0.2);
+    }
+
+    .key-placeholder {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .key-loader {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .spinner-ring {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(0, 245, 212, 0.25);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: rotateRing 0.75s linear infinite;
+    }
+
+    .key-code-text {
+      font-family: var(--font-mono);
+      font-size: clamp(18px, 4vw, 25px);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--accent-cyan);
+      text-shadow: 0 0 14px rgba(0, 245, 212, 0.55);
+      word-break: break-all;
+    }
+
+    .key-actions-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 540px) {
+      .key-actions-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.14s ease, filter 0.14s ease, opacity 0.14s ease, background 0.14s ease;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: scale(0.985);
+    }
+
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 11px;
+      border-radius: 9px;
+    }
+
+    .btn-primary-cyan {
+      background: linear-gradient(135deg, var(--accent-cyan), #38bdf8);
+      color: #05080d;
+      box-shadow: 0 8px 22px rgba(0, 245, 212, 0.26);
+    }
+
+    .btn-primary-cyan:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    .btn-primary-magenta {
+      background: linear-gradient(135deg, var(--accent-magenta), #f43f5e);
+      color: #ffffff;
+      box-shadow: 0 8px 22px rgba(255, 42, 133, 0.28);
+    }
+
+    .btn-primary-magenta:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-subtle);
+      color: #e2e8f0;
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.11);
+      border-color: rgba(0, 245, 212, 0.35);
+    }
+
+    .btn-danger-soft {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .btn-danger-soft:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.24);
+    }
+
+    .btn-verified-soft {
+      background: rgba(34, 197, 94, 0.16);
+      border-color: rgba(34, 197, 94, 0.45);
+      color: #4ade80;
+    }
+
+    .btn-full {
+      width: 100%;
+      padding: 13px 18px;
+      font-size: 14px;
+      border-radius: var(--radius-md);
+    }
+
+    /* Shake Animation */
+    .shake-anim {
+      animation: shakeX 0.4s ease-in-out;
+    }
+
+    @keyframes shakeX {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Toast Notification */
+    .toast-banner {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 100;
+      max-width: 340px;
+      padding: 12px 15px;
+      border-radius: var(--radius-md);
+      background: rgba(12, 17, 29, 0.96);
+      border: 1px solid var(--accent-cyan);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+      transform: translateY(110px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.26s ease, opacity 0.26s ease;
+    }
+
+    .toast-banner.is-shown {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-banner.is-warn {
+      border-color: var(--accent-magenta);
+    }
+
+    .toast-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .toast-desc {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .hidden-el {
+      display: none !important;
+    }
+
+    .app-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top-Right Badge -->
+    <div class="top-credit-row">
+      <div class="creator-badge">
+        <span class="creator-dot"></span>
+        <span>Creat by mannu bhai</span>
+      </div>
+    </div>
+
+    <!-- Brand Header & Circular RGB R4J Emblem -->
+    <header class="hero-header">
+      <div class="rgb-emblem-outer">
+        <div class="rgb-emblem-inner">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00f5d4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="7.5" cy="15.5" r="5"></circle>
+            <path d="M21 2l-9.2 9.2"></path>
+            <path d="M15.5 7.5l3 3L22 7l-3-3"></path>
+          </svg>
+          <span class="emblem-title">R4J</span>
+          <span class="emblem-sub">KEY HUB</span>
+        </div>
+      </div>
+      <h1 class="brand-heading">R4J KEY GENERATOR</h1>
+      <p id="stage-subtitle" class="brand-subtitle">Step 1: Create Account or Login with Gmail</p>
+    </header>
+
+    <!-- Navigation & Session Utility Card -->
+    <section class="glass-card" aria-label="Step Progress and Controls">
+      <div class="utility-bar">
+        <div class="session-info">
+          <span class="status-dot"></span>
+          <span id="session-status-label" class="session-text">Not logged in — Create Account or Login to start</span>
+        </div>
+        <div class="action-group">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="handleReset()">Reset</button>
+          <button type="button" class="btn btn-danger-soft btn-sm" onclick="handleSignOut()">Sign Out</button>
+        </div>
+      </div>
+
+      <div class="stepper-grid">
+        <button id="pill-step-auth" type="button" class="step-pill is-active" onclick="onPillSelect('step-auth')">
+          <span class="step-pill-title">1. Account</span>
+          <span id="pill-state-step-auth" class="step-pill-state">Active</span>
+        </button>
+        <button id="pill-step-2a" type="button" class="step-pill is-locked" onclick="onPillSelect('step-2a')">
+          <span class="step-pill-title">2. Step 2A YT</span>
+          <span id="pill-state-step-2a" class="step-pill-state">Locked</span>
+        </button>
+        <button id="pill-step-2b" type="button" class="step-pill is-locked" onclick="onPillSelect('step-2b')">
+          <span class="step-pill-title">3. Step 2B TG</span>
+          <span id="pill-state-step-2b" class="step-pill-state">Locked</span>
+        </button>
+        <button id="pill-step-2c" type="button" class="step-pill is-locked" onclick="onPillSelect('step-2c')">
+          <span class="step-pill-title">4. Step 2C IG</span>
+          <span id="pill-state-step-2c" class="step-pill-state">Locked</span>
+        </button>
+        <button id="pill-step-link" type="button" class="step-pill is-locked" onclick="onPillSelect('step-link')">
+          <span class="step-pill-title">5. Step 3 Link</span>
+          <span id="pill-state-step-link" class="step-pill-state">Locked</span>
+        </button>
+        <button id="pill-step-key" type="button" class="step-pill is-locked" onclick="onPillSelect('step-key')">
+          <span class="step-pill-title">6. Step 4 Key</span>
+          <span id="pill-state-step-key" class="step-pill-state">Locked</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 1: CREATE ACCOUNT / LOGIN -->
+    <section id="step-auth" class="stage-panel is-visible glass-card" aria-label="Create Account or Login">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 1 of 6 • Account Access</div>
+          <h2 class="stage-title">Create Account or Login</h2>
+        </div>
+        <span class="badge-pill">Gmail + Password</span>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button id="tab-btn-signup" type="button" class="auth-tab-btn is-active" onclick="setAuthTab('signup')">
+          Create Account
+        </button>
+        <button id="tab-btn-login" type="button" class="auth-tab-btn" onclick="setAuthTab('login')">
+          Login
+        </button>
+      </div>
+
+      <!-- Create Account Form -->
+      <form id="form-signup" class="form-stack" novalidate onsubmit="submitCreateAccount(event)">
+        <div class="field-group">
+          <label for="signup-name" class="field-label">Your Name</label>
+          <input
+            id="signup-name"
+            type="text"
+            placeholder="Enter your name"
+            class="input-box"
+            oninput="clearInputErr('signup-name', 'signup-name-err')"
+          />
+          <span id="signup-name-err" class="error-text hidden-el"></span>
+        </div>
+
+        <div class="field-group">
+          <label for="signup-gmail" class="field-label">Gmail Address</label>
+          <input
+            id="signup-gmail"
+            type="email"
+            placeholder="example@gmail.com"
+            class="input-box"
+            oninput="clearInputErr('signup-gmail', 'signup-gmail-err')"
+          />
+          <span id="signup-gmail-err" class="error-text hidden-el"></span>
+        </div>
+
+        <div class="field-group">
+          <label for="signup-password" class="field-label">Password</label>
+          <input
+            id="signup-password"
+            type="password"
+            placeholder="Minimum 4 characters"
+            class="input-box"
+            oninput="clearInputErr('signup-password', 'signup-password-err')"
+          />
+          <span id="signup-password-err" class="error-text hidden-el"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary-magenta btn-full">
+          Create Account &amp; Continue to Step 2A
+        </button>
+      </form>
+
+      <!-- Login Form -->
+      <form id="form-login" class="form-stack hidden-el" novalidate onsubmit="submitLogin(event)">
+        <div class="field-group">
+          <label for="login-gmail" class="field-label">Gmail Address</label>
+          <input
+            id="login-gmail"
+            type="email"
+            placeholder="example@gmail.com"
+            class="input-box"
+            oninput="clearInputErr('login-gmail', 'login-gmail-err')"
+          />
+          <span id="login-gmail-err" class="error-text hidden-el"></span>
+        </div>
+
+        <div class="field-group">
+          <label for="login-password" class="field-label">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="Enter your password"
+            class="input-box"
+            oninput="clearInputErr('login-password', 'login-password-err')"
+          />
+          <span id="login-password-err" class="error-text hidden-el"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary-cyan btn-full">
+          Login &amp; Continue to Step 2A
+        </button>
+      </form>
+    </section>
+
+    <!-- STEP 2A: YOUTUBE SUBSCRIBE + ADDITION QUIZ -->
+    <section id="step-2a" class="stage-panel glass-card" aria-label="Step 2A YouTube and Addition Quiz">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 2 of 6 • Step 2A</div>
+          <h2 class="stage-title">YouTube Subscribe + Addition Quiz</h2>
+        </div>
+        <span id="badge-2a" class="badge-pill">0/2 Done</span>
+      </div>
+
+      <div id="card-2a-social" class="task-card">
+        <div class="task-top-row">
+          <div class="task-identity">
+            <div class="icon-badge" style="color: #ff4d6d; border-color: rgba(255, 77, 109, 0.4);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="task-name">Subscribe to @r4jytofficial12</div>
+              <div class="task-url">https://youtube.com/@r4jytofficial12?si=FZDzkXyapLskXL9W</div>
+            </div>
+          </div>
+          <a
+            href="https://youtube.com/@r4jytofficial12?si=FZDzkXyapLskXL9W"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost btn-sm"
+          >
+            Open YouTube
+          </a>
+        </div>
+        <div class="task-footer-row">
+          <span>Mark after subscribing to the YouTube channel:</span>
+          <button id="verify-btn-2a" type="button" class="btn btn-ghost btn-sm" onclick="toggleSocialDone('2a')">
+            Verify Subscribe
+          </button>
+        </div>
+      </div>
+
+      <div id="card-2a-quiz" class="task-card">
+        <div class="quiz-question">
+          Addition Quiz: What is <span class="quiz-highlight">15 + 28</span>?
+        </div>
+        <div class="quiz-inline-row">
+          <input
+            id="quiz-input-2a"
+            type="number"
+            inputmode="numeric"
+            placeholder="Enter answer"
+            class="input-box"
+            oninput="onQuizTyping('2a')"
+          />
+          <button type="button" class="btn btn-primary-cyan" onclick="verifyQuiz('2a', 43)">
+            Check Answer
+          </button>
+        </div>
+        <p id="quiz-note-2a" class="feedback-note hidden-el"></p>
+      </div>
+
+      <div id="warn-2a" class="warning-banner hidden-el" role="alert"></div>
+
+      <button type="button" class="btn btn-primary-cyan btn-full" onclick="advanceFromStep('2a', 'step-2b')">
+        Next to Step 2B (Telegram)
+      </button>
+    </section>
+
+    <!-- STEP 2B: TELEGRAM JOIN + MULTIPLICATION QUIZ -->
+    <section id="step-2b" class="stage-panel glass-card" aria-label="Step 2B Telegram and Multiplication Quiz">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 3 of 6 • Step 2B</div>
+          <h2 class="stage-title">Telegram Join + Multiplication Quiz</h2>
+        </div>
+        <span id="badge-2b" class="badge-pill">0/2 Done</span>
+      </div>
+
+      <div id="card-2b-social" class="task-card">
+        <div class="task-top-row">
+          <div class="task-identity">
+            <div class="icon-badge" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 8.2-1.8 8.6c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.1.1-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2-.1-.3-.3-.1l-6.5 4.1-2.8-.9c-.6-.2-.6-.6.1-.9l11-4.2c.5-.2 1 .1.8.8z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="task-name">Join Telegram Channel</div>
+              <div class="task-url">https://t.me/+N2B5qGgol-lhYTI1</div>
+            </div>
+          </div>
+          <a
+            href="https://t.me/+N2B5qGgol-lhYTI1"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost btn-sm"
+          >
+            Join Telegram
+          </a>
+        </div>
+        <div class="task-footer-row">
+          <span>Mark after joining the Telegram channel:</span>
+          <button id="verify-btn-2b" type="button" class="btn btn-ghost btn-sm" onclick="toggleSocialDone('2b')">
+            Verify Join
+          </button>
+        </div>
+      </div>
+
+      <div id="card-2b-quiz" class="task-card">
+        <div class="quiz-question">
+          Multiplication Quiz: What is <span class="quiz-highlight">7 × 9</span>?
+        </div>
+        <div class="quiz-inline-row">
+          <input
+            id="quiz-input-2b"
+            type="number"
+            inputmode="numeric"
+            placeholder="Enter answer"
+            class="input-box"
+            oninput="onQuizTyping('2b')"
+          />
+          <button type="button" class="btn btn-primary-cyan" onclick="verifyQuiz('2b', 63)">
+            Check Answer
+          </button>
+        </div>
+        <p id="quiz-note-2b" class="feedback-note hidden-el"></p>
+      </div>
+
+      <div id="warn-2b" class="warning-banner hidden-el" role="alert"></div>
+
+      <button type="button" class="btn btn-primary-cyan btn-full" onclick="advanceFromStep('2b', 'step-2c')">
+        Next to Step 2C (Instagram)
+      </button>
+    </section>
+
+    <!-- STEP 2C: INSTAGRAM FOLLOW + MATH QUIZ -->
+    <section id="step-2c" class="stage-panel glass-card" aria-label="Step 2C Instagram and Math Quiz">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 4 of 6 • Step 2C</div>
+          <h2 class="stage-title">Instagram Follow + Math Quiz</h2>
+        </div>
+        <span id="badge-2c" class="badge-pill">0/2 Done</span>
+      </div>
+
+      <div id="card-2c-social" class="task-card">
+        <div class="task-top-row">
+          <div class="task-identity">
+            <div class="icon-badge" style="color: #ff5e9e; border-color: rgba(255, 94, 158, 0.4);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="task-name">Follow @manauwar09</div>
+              <div class="task-url">https://www.instagram.com/manauwar09/</div>
+            </div>
+          </div>
+          <a
+            href="https://www.instagram.com/manauwar09/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-ghost btn-sm"
+          >
+            Follow on Instagram
+          </a>
+        </div>
+        <div class="task-footer-row">
+          <span>Mark after following @manauwar09:</span>
+          <button id="verify-btn-2c" type="button" class="btn btn-ghost btn-sm" onclick="toggleSocialDone('2c')">
+            Verify Follow
+          </button>
+        </div>
+      </div>
+
+      <div id="card-2c-quiz" class="task-card">
+        <div class="quiz-question">
+          Math Quiz: What is <span class="quiz-highlight">50 - 16</span>?
+        </div>
+        <div class="quiz-inline-row">
+          <input
+            id="quiz-input-2c"
+            type="number"
+            inputmode="numeric"
+            placeholder="Enter answer"
+            class="input-box"
+            oninput="onQuizTyping('2c')"
+          />
+          <button type="button" class="btn btn-primary-magenta" onclick="verifyQuiz('2c', 34)">
+            Check Answer
+          </button>
+        </div>
+        <p id="quiz-note-2c" class="feedback-note hidden-el"></p>
+      </div>
+
+      <div id="warn-2c" class="warning-banner hidden-el" role="alert"></div>
+
+      <button type="button" class="btn btn-primary-magenta btn-full" onclick="advanceFromStep('2c', 'step-link')">
+        Next to Step 3 (Your Link)
+      </button>
+    </section>
+
+    <!-- STEP 3: YOUR LINK VERIFICATION -->
+    <section id="step-link" class="stage-panel glass-card" aria-label="Step 3 Your Link Verification">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 5 of 6 • Step 3</div>
+          <h2 class="stage-title">Your Link Verification</h2>
+        </div>
+        <span id="badge-link" class="badge-pill">Pending</span>
+      </div>
+
+      <div id="card-your-link" class="task-card">
+        <p class="task-url">Open Link, Copy Link, or Verify Link below to unlock Step 4 (Key Generator).</p>
+        <div class="link-preview-box">
+          <span id="your-link-value" class="link-preview-text">https://r4j-key-hub.local/your-link</span>
+          <span id="your-link-status-tag" class="feedback-note bad">Unverified</span>
+        </div>
+        <div class="link-btn-row">
+          <button type="button" class="btn btn-primary-cyan" onclick="handleOpenYourLink()">Open Link</button>
+          <button type="button" class="btn btn-ghost" onclick="handleCopyYourLink()">Copy Link</button>
+          <button type="button" class="btn btn-primary-magenta" onclick="handleVerifyYourLink()">Verify Link</button>
+        </div>
+      </div>
+
+      <div id="warn-link" class="warning-banner hidden-el" role="alert"></div>
+
+      <button type="button" class="btn btn-primary-magenta btn-full" onclick="advanceFromLink()">
+        Next to Step 4 (Key Generator)
+      </button>
+    </section>
+
+    <!-- STEP 4: KEY GENERATOR -->
+    <section id="step-key" class="stage-panel glass-card" aria-label="Step 4 Key Generator">
+      <div class="stage-header">
+        <div>
+          <div class="stage-kicker">Step 6 of 6 • Step 4</div>
+          <h2 class="stage-title">Key Generator</h2>
+        </div>
+        <span class="badge-pill is-complete">Unlocked</span>
+      </div>
+
+      <div class="task-card" style="margin-bottom: 16px;">
+        <div class="task-top-row">
+          <span class="task-url">Verified Account:</span>
+          <span id="key-owner-email" class="quiz-highlight" style="font-size: 13px;">user@gmail.com</span>
+        </div>
+      </div>
+
+      <div id="key-box" class="key-display-box">
+        <span id="key-state-idle" class="key-placeholder">Click GENERATE KEY to load your key</span>
+        <span id="key-state-loading" class="key-loader hidden-el">
+          <span class="spinner-ring"></span>
+          <span>Generating key...</span>
+        </span>
+        <span id="key-state-value" class="key-code-text hidden-el">[RAJ-MANNU-B4H-65]</span>
+      </div>
+
+      <div class="key-actions-row">
+        <button id="btn-generate-key" type="button" class="btn btn-primary-cyan btn-full" onclick="handleGenerateKey()">
+          GENERATE KEY
+        </button>
+        <button id="btn-copy-key" type="button" class="btn btn-primary-magenta btn-full" disabled onclick="handleCopyKey()">
+          COPY KEY
+        </button>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      R4J KEY GENERATOR • Creat by mannu bhai
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="toast-banner" role="status" aria-live="polite">
+    <div id="toast-title" class="toast-title">Notification</div>
+    <div id="toast-desc" class="toast-desc">Updated</div>
+  </div>
+
+  <script>
+    const TARGET_KEY = "[RAJ-MANNU-B4H-65]";
+    const YOUR_LINK = "https://r4j-key-hub.local/your-link";
+    const USERS_STORAGE_KEY = "r4j_users_store_v1";
+    const SESSION_STORAGE_KEY = "r4j_session_store_v1";
+    const STAGE_LIST = ["step-auth", "step-2a", "step-2b", "step-2c", "step-link", "step-key"];
+
+    // Safe Storage Wrapper: Never throws even if localStorage is blocked
+    const memoryStorage = Object.create(null);
+
+    function readStorage(key) {
+      try {
+        if (typeof window !== "undefined" && window.localStorage) {
+          const v = window.localStorage.getItem(key);
+          if (v !== null) {
+            return v;
+          }
+        }
+      } catch (_err) {
+        // Fallback to in-memory storage
+      }
+      return Object.prototype.hasOwnProperty.call(memoryStorage, key) ? memoryStorage[key] : null;
+    }
+
+    function writeStorage(key, value) {
+      memoryStorage[key] = String(value);
+      try {
+        if (typeof window !== "undefined" && window.localStorage) {
+          window.localStorage.setItem(key, String(value));
+        }
+      } catch (_err) {
+        // In-memory storage already has the value
+      }
+    }
+
+    function removeStorage(key) {
+      delete memoryStorage[key];
+      try {
+        if (typeof window !== "undefined" && window.localStorage) {
+          window.localStorage.removeItem(key);
+        }
+      } catch (_err) {
+        // Ignore storage restrictions
+      }
+    }
+
+    function createInitialState() {
+      return {
+        stage: "step-auth",
+        authTab: "signup",
+        user: null, // { name, gmail }
+        tasks: {
+          "2a": { socialDone: false, quizDone: false, answer: "" },
+          "2b": { socialDone: false, quizDone: false, answer: "" },
+          "2c": { socialDone: false, quizDone: false, answer: "" }
+        },
+        linkDone: false,
+        keyGenerated: false
+      };
+    }
+
+    let state = createInitialState();
+    let generatingKey = false;
+    let keyTimeoutId = null;
+    let toastTimeoutId = null;
+
+    function getSavedUsers() {
+      try {
+        const raw = readStorage(USERS_STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_err) {
+        return [];
+      }
+    }
+
+    function setSavedUsers(users) {
+      try {
+        writeStorage(USERS_STORAGE_KEY, JSON.stringify(users));
+      } catch (_err) {
+        // Ignore serialization issues
+      }
+    }
+
+    function saveSession() {
+      try {
+        writeStorage(SESSION_STORAGE_KEY, JSON.stringify(state));
+      } catch (_err) {
+        // Ignore serialization issues
+      }
+    }
+
+    function loadSession() {
+      try {
+        const raw = readStorage(SESSION_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        const base = createInitialState();
+        state = {
+          ...base,
+          ...parsed,
+          tasks: {
+            "2a": { ...base.tasks["2a"], ...(parsed && parsed.tasks && parsed.tasks["2a"]) },
+            "2b": { ...base.tasks["2b"], ...(parsed && parsed.tasks && parsed.tasks["2b"]) },
+            "2c": { ...base.tasks["2c"], ...(parsed && parsed.tasks && parsed.tasks["2c"]) }
+          }
+        };
+        if (!STAGE_LIST.includes(state.stage)) {
+          state.stage = "step-auth";
+        }
+      } catch (_err) {
+        state = createInitialState();
+      }
+    }
+
+    // Show target stage immediately and hide all other stage panels
+    function openStage(stageId) {
+      const targetId = STAGE_LIST.includes(stageId) ? stageId : "step-auth";
+      state.stage = targetId;
+      saveSession();
+
+      STAGE_LIST.forEach((id) => {
+        const panel = document.getElementById(id);
+        if (!panel) return;
+        if (id === targetId) {
+          panel.classList.remove("is-visible");
+          void panel.offsetWidth;
+          panel.classList.add("is-visible");
+        } else {
+          panel.classList.remove("is-visible");
+        }
+      });
+
+      refreshUI();
+    }
+
+    function isStageUnlocked(stageId) {
+      const loggedIn = Boolean(state.user && state.user.gmail);
+      const done2a = state.tasks["2a"].socialDone && state.tasks["2a"].quizDone;
+      const done2b = state.tasks["2b"].socialDone && state.tasks["2b"].quizDone;
+      const done2c = state.tasks["2c"].socialDone && state.tasks["2c"].quizDone;
+      const doneLink = Boolean(state.linkDone);
+
+      switch (stageId) {
+        case "step-auth":
+          return true;
+        case "step-2a":
+          return loggedIn;
+        case "step-2b":
+          return loggedIn && done2a;
+        case "step-2c":
+          return loggedIn && done2a && done2b;
+        case "step-link":
+          return loggedIn && done2a && done2b && done2c;
+        case "step-key":
+          return loggedIn && done2a && done2b && done2c && doneLink;
+        default:
+          return false;
+      }
+    }
+
+    function onPillSelect(stageId) {
+      if (!isStageUnlocked(stageId)) {
+        notify("Step Locked", "Complete the previous step first to unlock this stage.", true);
+        return;
+      }
+      openStage(stageId);
+    }
+
+    function setAuthTab(tabName) {
+      state.authTab = tabName === "login" ? "login" : "signup";
+      saveSession();
+
+      const btnSignup = document.getElementById("tab-btn-signup");
+      const btnLogin = document.getElementById("tab-btn-login");
+      const formSignup = document.getElementById("form-signup");
+      const formLogin = document.getElementById("form-login");
+
+      if (state.authTab === "signup") {
+        btnSignup.classList.add("is-active");
+        btnLogin.classList.remove("is-active");
+        formSignup.classList.remove("hidden-el");
+        formLogin.classList.add("hidden-el");
+      } else {
+        btnLogin.classList.add("is-active");
+        btnSignup.classList.remove("is-active");
+        formLogin.classList.remove("hidden-el");
+        formSignup.classList.add("hidden-el");
+      }
+    }
+
+    function showInputErr(inputId, errId, msg) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (input) input.classList.add("input-error");
+      if (err) {
+        err.textContent = msg;
+        err.classList.remove("hidden-el");
+      }
+    }
+
+    function clearInputErr(inputId, errId) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (input) input.classList.remove("input-error");
+      if (err) {
+        err.textContent = "";
+        err.classList.add("hidden-el");
+      }
+    }
+
+    function isValidGmail(email) {
+      return /^[a-zA-Z0-9._%+-]+@gmail\.com$/i.test(String(email || "").trim());
+    }
+
+    // Step 1A: Create Account -> Immediately opens Step 2A
+    function submitCreateAccount(event) {
+      event.preventDefault();
+      try {
+        const nameInput = document.getElementById("signup-name");
+        const gmailInput = document.getElementById("signup-gmail");
+        const passInput = document.getElementById("signup-password");
+
+        const name = (nameInput.value || "").trim();
+        const gmail = (gmailInput.value || "").trim().toLowerCase();
+        const password = passInput.value || "";
+
+        let valid = true;
+        if (name.length < 2) {
+          showInputErr("signup-name", "signup-name-err", "Please enter your name (at least 2 characters).");
+          valid = false;
+        }
+        if (!isValidGmail(gmail)) {
+          showInputErr("signup-gmail", "signup-gmail-err", "Please enter a valid @gmail.com address.");
+          valid = false;
+        }
+        if (password.length < 4) {
+          showInputErr("signup-password", "signup-password-err", "Password must be at least 4 characters.");
+          valid = false;
+        }
+        if (!valid) {
+          notify("Invalid Details", "Check your name, @gmail.com address, and password.", true);
+          return;
+        }
+
+        const users = getSavedUsers();
+        const existingIndex = users.findIndex((u) => u.gmail === gmail);
+        if (existingIndex >= 0) {
+          users[existingIndex] = { name, gmail, password };
+        } else {
+          users.push({ name, gmail, password });
+        }
+        setSavedUsers(users);
+
+        state.user = { name, gmail };
+        saveSession();
+
+        nameInput.value = "";
+        gmailInput.value = "";
+        passInput.value = "";
+
+        openStage("step-2a");
+        notify("Account Created", "Welcome " + gmail + " — Step 2A opened.");
+      } catch (_err) {
+        state.user = { name: "Member", gmail: "member@gmail.com" };
+        openStage("step-2a");
+      }
+    }
+
+    // Step 1B: Login -> Immediately opens Step 2A
+    function submitLogin(event) {
+      event.preventDefault();
+      try {
+        const gmailInput = document.getElementById("login-gmail");
+        const passInput = document.getElementById("login-password");
+
+        const gmail = (gmailInput.value || "").trim().toLowerCase();
+        const password = passInput.value || "";
+
+        let valid = true;
+        if (!isValidGmail(gmail)) {
+          showInputErr("login-gmail", "login-gmail-err", "Please enter a valid @gmail.com address.");
+          valid = false;
+        }
+        if (password.length < 4) {
+          showInputErr("login-password", "login-password-err", "Please enter your password (min 4 characters).");
+          valid = false;
+        }
+        if (!valid) {
+          notify("Login Error", "Enter a valid @gmail.com and password.", true);
+          return;
+        }
+
+        const users = getSavedUsers();
+        const matched = users.find((u) => u.gmail === gmail);
+        if (matched && matched.password !== password) {
+          showInputErr("login-password", "login-password-err", "Incorrect password for this account.");
+          notify("Wrong Password", "Please check your password and try again.", true);
+          return;
+        }
+
+        const displayName = matched ? matched.name : gmail.split("@")[0];
+        if (!matched) {
+          users.push({ name: displayName, gmail, password });
+          setSavedUsers(users);
+        }
+
+        state.user = { name: displayName, gmail };
+        saveSession();
+        passInput.value = "";
+
+        openStage("step-2a");
+        notify("Logged In", "Signed in as " + gmail + " — Step 2A opened.");
+      } catch (_err) {
+        state.user = { name: "Member", gmail: "member@gmail.com" };
+        openStage("step-2a");
+      }
+    }
+
+    function toggleSocialDone(code) {
+      const task = state.tasks[code];
+      if (!task) return;
+      task.socialDone = !task.socialDone;
+      const warn = document.getElementById("warn-" + code);
+      if (warn) warn.classList.add("hidden-el");
+      saveSession();
+      refreshUI();
+      notify(
+        task.socialDone ? "Task Verified" : "Task Unchecked",
+        task.socialDone ? "Social step marked complete." : "Social step unmarked.",
+        !task.socialDone
+      );
+    }
+
+    function onQuizTyping(code) {
+      const task = state.tasks[code];
+      const input = document.getElementById("quiz-input-" + code);
+      if (!task || !input) return;
+      task.answer = input.value;
+      task.quizDone = false;
+      const note = document.getElementById("quiz-note-" + code);
+      if (note) note.classList.add("hidden-el");
+      saveSession();
+      refreshUI();
+    }
+
+    function verifyQuiz(code, expectedValue) {
+      const task = state.tasks[code];
+      const input = document.getElementById("quiz-input-" + code);
+      const note = document.getElementById("quiz-note-" + code);
+      const quizCard = document.getElementById("card-" + code + "-quiz");
+      if (!task || !input || !note) return;
+
+      const trimmed = (input.value || "").trim();
+      task.answer = trimmed;
+
+      if (trimmed === "" || Number.isNaN(Number(trimmed))) {
+        task.quizDone = false;
+        saveSession();
+        note.textContent = "Please type a number first, then click Check Answer.";
+        note.className = "feedback-note bad";
+        note.classList.remove("hidden-el");
+        shakeElement(quizCard);
+        refreshUI();
+        return;
+      }
+
+      if (Number(trimmed) === expectedValue) {
+        task.quizDone = true;
+        const warn = document.getElementById("warn-" + code);
+        if (warn) warn.classList.add("hidden-el");
+        saveSession();
+        note.textContent = "Correct answer (" + expectedValue + ") verified.";
+        note.className = "feedback-note ok";
+        note.classList.remove("hidden-el");
+        refreshUI();
+        notify("Quiz Passed", "Answer " + expectedValue + " verified.");
+      } else {
+        task.quizDone = false;
+        saveSession();
+        note.textContent = "Incorrect answer. Try again.";
+        note.className = "feedback-note bad";
+        note.classList.remove("hidden-el");
+        shakeElement(quizCard);
+        refreshUI();
+        notify("Wrong Answer", "Quiz answer is incorrect.", true);
+      }
+    }
+
+    function advanceFromStep(code, nextStageId) {
+      const task = state.tasks[code];
+      const warn = document.getElementById("warn-" + code);
+      const socialCard = document.getElementById("card-" + code + "-social");
+      const quizCard = document.getElementById("card-" + code + "-quiz");
+
+      const needsSocial = !task.socialDone;
+      const needsQuiz = !task.quizDone;
+
+      if (needsSocial || needsQuiz) {
+        const missing = [];
+        if (needsSocial) {
+          missing.push("complete the social verification");
+          shakeElement(socialCard);
+        }
+        if (needsQuiz) {
+          missing.push("solve and check the quiz answer");
+          shakeElement(quizCard);
+        }
+        if (warn) {
+          warn.textContent = "Warning: Please " + missing.join(" and ") + " before continuing.";
+          warn.classList.remove("hidden-el");
+          shakeElement(warn);
+        }
+        notify("Step Incomplete", "Finish both tasks in this step first.", true);
+        return;
+      }
+
+      if (warn) warn.classList.add("hidden-el");
+      openStage(nextStageId);
+    }
+
+    // Step 3: Your Link handlers
+    function handleOpenYourLink() {
+      state.linkDone = true;
+      const warn = document.getElementById("warn-link");
+      if (warn) warn.classList.add("hidden-el");
+      saveSession();
+      refreshUI();
+      try {
+        const win = window.open(YOUR_LINK, "_blank", "noopener,noreferrer");
+        if (win) win.opener = null;
+      } catch (_err) {
+        // Ignore popup restrictions
+      }
+      notify("Your Link Verified", "Link opened and marked verified.");
+    }
+
+    function handleCopyYourLink() {
+      copyToClipboard(YOUR_LINK, () => {
+        state.linkDone = true;
+        const warn = document.getElementById("warn-link");
+        if (warn) warn.classList.add("hidden-el");
+        saveSession();
+        refreshUI();
+        notify("Your Link Copied", "Link copied and verified.");
+      });
+    }
+
+    function handleVerifyYourLink() {
+      state.linkDone = true;
+      const warn = document.getElementById("warn-link");
+      if (warn) warn.classList.add("hidden-el");
+      saveSession();
+      refreshUI();
+      notify("Your Link Verified", "You can now go to Step 4 (Key Generator).");
+    }
+
+    function advanceFromLink() {
+      const warn = document.getElementById("warn-link");
+      const card = document.getElementById("card-your-link");
+      if (!state.linkDone) {
+        if (warn) {
+          warn.textContent = "Warning: Please click Open Link, Copy Link, or Verify Link first.";
+          warn.classList.remove("hidden-el");
+          shakeElement(warn);
+        }
+        shakeElement(card);
+        notify("Link Required", "Verify Your Link before continuing.", true);
+        return;
+      }
+      if (warn) warn.classList.add("hidden-el");
+      openStage("step-key");
+    }
+
+    // Step 4: Key Generator (1.2s loading animation -> [RAJ-MANNU-B4H-65])
+    function handleGenerateKey() {
+      if (generatingKey) return;
+      generatingKey = true;
+
+      const genBtn = document.getElementById("btn-generate-key");
+      const copyBtn = document.getElementById("btn-copy-key");
+      const idleEl = document.getElementById("key-state-idle");
+      const loadEl = document.getElementById("key-state-loading");
+      const valEl = document.getElementById("key-state-value");
+      const boxEl = document.getElementById("key-box");
+
+      genBtn.disabled = true;
+      copyBtn.disabled = true;
+
+      idleEl.classList.add("hidden-el");
+      valEl.classList.add("hidden-el");
+      loadEl.classList.remove("hidden-el");
+      boxEl.classList.remove("is-ready");
+
+      if (keyTimeoutId) clearTimeout(keyTimeoutId);
+      keyTimeoutId = setTimeout(() => {
+        loadEl.classList.add("hidden-el");
+        valEl.textContent = TARGET_KEY;
+        valEl.classList.remove("hidden-el");
+        boxEl.classList.add("is-ready");
+
+        state.keyGenerated = true;
+        saveSession();
+
+        generatingKey = false;
+        genBtn.disabled = false;
+        copyBtn.disabled = false;
+
+        notify("Key Generated", TARGET_KEY + " is ready to copy.");
+      }, 1200);
+    }
+
+    function handleCopyKey() {
+      if (!state.keyGenerated) return;
+      copyToClipboard(TARGET_KEY, () => {
+        notify("Copied to Clipboard", TARGET_KEY + " copied.");
+      });
+    }
+
+    function copyToClipboard(text, onDone) {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        navigator.clipboard
+          .writeText(text)
+          .then(onDone)
+          .catch(() => execFallbackCopy(text, onDone));
+      } else {
+        execFallbackCopy(text, onDone);
+      }
+    }
+
+    function execFallbackCopy(text, onDone) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        onDone();
+      } catch (_err) {
+        notify("Copy Failed", "Could not copy automatically.", true);
+      }
+    }
+
+    // Reset & Sign Out
+    function handleReset() {
+      if (keyTimeoutId) {
+        clearTimeout(keyTimeoutId);
+        keyTimeoutId = null;
+      }
+      generatingKey = false;
+
+      const currentUser = state.user ? { ...state.user } : null;
+      state = createInitialState();
+      state.user = currentUser;
+
+      ["2a", "2b", "2c"].forEach((code) => {
+        const inp = document.getElementById("quiz-input-" + code);
+        if (inp) inp.value = "";
+        const note = document.getElementById("quiz-note-" + code);
+        if (note) note.classList.add("hidden-el");
+        const warn = document.getElementById("warn-" + code);
+        if (warn) warn.classList.add("hidden-el");
+      });
+      const linkWarn = document.getElementById("warn-link");
+      if (linkWarn) linkWarn.classList.add("hidden-el");
+
+      resetKeyBoxVisual();
+      saveSession();
+      openStage(currentUser ? "step-2a" : "step-auth");
+      notify("Reset Complete", "All steps and key output were reset.");
+    }
+
+    function handleSignOut() {
+      if (keyTimeoutId) {
+        clearTimeout(keyTimeoutId);
+        keyTimeoutId = null;
+      }
+      generatingKey = false;
+
+      state = createInitialState();
+      removeStorage(SESSION_STORAGE_KEY);
+
+      ["2a", "2b", "2c"].forEach((code) => {
+        const inp = document.getElementById("quiz-input-" + code);
+        if (inp) inp.value = "";
+        const note = document.getElementById("quiz-note-" + code);
+        if (note) note.classList.add("hidden-el");
+        const warn = document.getElementById("warn-" + code);
+        if (warn) warn.classList.add("hidden-el");
+      });
+      const linkWarn = document.getElementById("warn-link");
+      if (linkWarn) linkWarn.classList.add("hidden-el");
+
+      resetKeyBoxVisual();
+      openStage("step-auth");
+      notify("Signed Out", "Returned to Step 1 (Account).");
+    }
+
+    function resetKeyBoxVisual() {
+      const idleEl = document.getElementById("key-state-idle");
+      const loadEl = document.getElementById("key-state-loading");
+      const valEl = document.getElementById("key-state-value");
+      const copyBtn = document.getElementById("btn-copy-key");
+      const boxEl = document.getElementById("key-box");
+
+      if (idleEl) idleEl.classList.remove("hidden-el");
+      if (loadEl) loadEl.classList.add("hidden-el");
+      if (valEl) valEl.classList.add("hidden-el");
+      if (copyBtn) copyBtn.disabled = true;
+      if (boxEl) boxEl.classList.remove("is-ready");
+    }
+
+    function syncTaskSection(code, doneText, pendingText) {
+      const task = state.tasks[code];
+      const verifyBtn = document.getElementById("verify-btn-" + code);
+      const socialCard = document.getElementById("card-" + code + "-social");
+      const quizInput = document.getElementById("quiz-input-" + code);
+      const badge = document.getElementById("badge-" + code);
+
+      if (verifyBtn) {
+        verifyBtn.textContent = task.socialDone ? "Verified ✓" : pendingText;
+        verifyBtn.className = task.socialDone
+          ? "btn btn-verified-soft btn-sm"
+          : "btn btn-ghost btn-sm";
+      }
+
+      if (socialCard) {
+        socialCard.classList.toggle("is-verified", Boolean(task.socialDone));
+      }
+
+      if (quizInput && quizInput.value !== task.answer) {
+        quizInput.value = task.answer || "";
+      }
+
+      if (badge) {
+        const count = (task.socialDone ? 1 : 0) + (task.quizDone ? 1 : 0);
+        badge.textContent = count + "/2 Done";
+        badge.className = count === 2 ? "badge-pill is-complete" : "badge-pill";
+      }
+    }
+
+    function refreshUI() {
+      setAuthTab(state.authTab);
+
+      const sessionLabel = document.getElementById("session-status-label");
+      const subtitle = document.getElementById("stage-subtitle");
+      const ownerEmail = document.getElementById("key-owner-email");
+
+      if (state.user && state.user.gmail) {
+        if (sessionLabel) sessionLabel.textContent = "Account: " + state.user.gmail;
+        if (ownerEmail) ownerEmail.textContent = state.user.gmail;
+      } else {
+        if (sessionLabel) sessionLabel.textContent = "Not logged in — Create Account or Login to start";
+        if (ownerEmail) ownerEmail.textContent = "user@gmail.com";
+      }
+
+      const subtitles = {
+        "step-auth": "Step 1: Create Account or Login with Gmail",
+        "step-2a": "Step 2A: Subscribe on YouTube & Solve Addition Quiz",
+        "step-2b": "Step 2B: Join Telegram & Solve Multiplication Quiz",
+        "step-2c": "Step 2C: Follow on Instagram & Solve Math Quiz",
+        "step-link": "Step 3: Open, Copy, or Verify Your Link",
+        "step-key": "Step 4: Generate & Copy [RAJ-MANNU-B4H-65]"
+      };
+      if (subtitle) subtitle.textContent = subtitles[state.stage] || subtitles["step-auth"];
+
+      syncTaskSection("2a", "Verified ✓", "Verify Subscribe");
+      syncTaskSection("2b", "Verified ✓", "Verify Join");
+      syncTaskSection("2c", "Verified ✓", "Verify Follow");
+
+      const linkBadge = document.getElementById("badge-link");
+      const linkTag = document.getElementById("your-link-status-tag");
+      const linkCard = document.getElementById("card-your-link");
+      const linkValue = document.getElementById("your-link-value");
+
+      if (linkValue) linkValue.textContent = YOUR_LINK;
+      if (state.linkDone) {
+        if (linkBadge) {
+          linkBadge.textContent = "Verified ✓";
+          linkBadge.className = "badge-pill is-complete";
+        }
+        if (linkTag) {
+          linkTag.textContent = "Verified ✓";
+          linkTag.className = "feedback-note ok";
+        }
+        if (linkCard) linkCard.classList.add("is-verified");
+      } else {
+        if (linkBadge) {
+          linkBadge.textContent = "Pending";
+          linkBadge.className = "badge-pill";
+        }
+        if (linkTag) {
+          linkTag.textContent = "Unverified";
+          linkTag.className = "feedback-note bad";
+        }
+        if (linkCard) linkCard.classList.remove("is-verified");
+      }
+
+      if (state.keyGenerated && !generatingKey) {
+        const idleEl = document.getElementById("key-state-idle");
+        const loadEl = document.getElementById("key-state-loading");
+        const valEl = document.getElementById("key-state-value");
+        const copyBtn = document.getElementById("btn-copy-key");
+        const boxEl = document.getElementById("key-box");
+
+        if (idleEl) idleEl.classList.add("hidden-el");
+        if (loadEl) loadEl.classList.add("hidden-el");
+        if (valEl) {
+          valEl.textContent = TARGET_KEY;
+          valEl.classList.remove("hidden-el");
+        }
+        if (copyBtn) copyBtn.disabled = false;
+        if (boxEl) boxEl.classList.add("is-ready");
+      } else if (!generatingKey) {
+        resetKeyBoxVisual();
+      }
+
+      const completionMap = {
+        "step-auth": Boolean(state.user && state.user.gmail),
+        "step-2a": state.tasks["2a"].socialDone && state.tasks["2a"].quizDone,
+        "step-2b": state.tasks["2b"].socialDone && state.tasks["2b"].quizDone,
+        "step-2c": state.tasks["2c"].socialDone && state.tasks["2c"].quizDone,
+        "step-link": Boolean(state.linkDone),
+        "step-key": Boolean(state.keyGenerated)
+      };
+
+      STAGE_LIST.forEach((id) => {
+        const pill = document.getElementById("pill-" + id);
+        const stateText = document.getElementById("pill-state-" + id);
+        if (!pill || !stateText) return;
+
+        const active = state.stage === id;
+        const done = completionMap[id];
+        const unlocked = isStageUnlocked(id);
+
+        pill.classList.remove("is-active", "is-done", "is-locked");
+        if (active) {
+          pill.classList.add("is-active");
+          stateText.textContent = "Active";
+        } else if (done) {
+          pill.classList.add("is-done");
+          stateText.textContent = "Done ✓";
+        } else if (unlocked) {
+          stateText.textContent = "Ready";
+        } else {
+          pill.classList.add("is-locked");
+          stateText.textContent = "Locked";
+        }
+      });
+    }
+
+    function shakeElement(el) {
+      if (!el) return;
+      el.classList.remove("shake-anim");
+      void el.offsetWidth;
+      el.classList.add("shake-anim");
+    }
+
+    function notify(title, desc, isWarning) {
+      const box = document.getElementById("toast-box");
+      const titleEl = document.getElementById("toast-title");
+      const descEl = document.getElementById("toast-desc");
+      if (!box || !titleEl || !descEl) return;
+
+      titleEl.textContent = title;
+      descEl.textContent = desc;
+      box.classList.toggle("is-warn", Boolean(isWarning));
+      box.classList.add("is-shown");
+
+      if (toastTimeoutId) clearTimeout(toastTimeoutId);
+      toastTimeoutId = setTimeout(() => {
+        box.classList.remove("is-shown");
+      }, 2800);
+    }
+
+    function bootPortal() {
+      loadSession();
+      openStage(state.stage || "step-auth");
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bootPortal);
+    } else {
+      bootPortal();
+    }
+  </script>
+</body>
+</html>
